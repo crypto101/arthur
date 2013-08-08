@@ -113,10 +113,10 @@ class WorkbenchTests(unittest.TestCase):
 
 class DummyTool(object):
     """
-    A dummy tool, with a title, widget and position.
+    A dummy tool, with a name, widget and position.
     """
-    def __init__(self, title):
-        self.title = title
+    def __init__(self, name):
+        self.title = name
         self.widget = DummyWidget()
         self.position = "center", 1, "middle", 1
 
