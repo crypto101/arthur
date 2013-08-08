@@ -36,7 +36,7 @@ class Workbench(object):
         """
         Clears the workbench.
         """
-        self.header.title.set_text(u"XXX")
+        self.header.title.set_text(u"")
         self.widget.contents["body"] = BACKGROUND, None
 
 

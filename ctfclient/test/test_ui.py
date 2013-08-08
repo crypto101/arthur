@@ -111,8 +111,10 @@ class WorkbenchTests(unittest.TestCase):
         self.workbench.display(first)
         second = DummyTool(u"Second")
         self.workbench.display(second)
+
         self.workbench.clear()
         self.assertDisplayed([])
+        self.assertEqual(self.workbench.header.title.text, u"")
 
         third = DummyTool(u"Third")
         self.workbench.display(third)
