@@ -1,0 +1,166 @@
+import urwid
+
+from ctfclient import ui
+from twisted.trial import unittest
+
+class ConstantsTests(unittest.TestCase):
+    def test_background(self):
+        """
+        The background is a solid fill with the right display attribute.
+        """
+        self.assertEqual(ui.BACKGROUND.attr_map, {None: "background"})
+
+        widget = ui.BACKGROUND.original_widget
+        self.assertTrue(isinstance(widget, urwid.SolidFill))
+        self.assertEqual(widget.fill_char, u"\N{LIGHT SHADE}")
+
+
+    def test_palette(self):
+        """
+        The palette contains header, foreground and background attributes.
+        """
+        expected = {
+            "header": ("black", "dark green"),
+            "foreground": ("dark green", "black"),
+            "background": ("dark gray", "black")
+        }
+        for attributeTuple in ui.DEFAULT_PALETTE:
+            name, attrs = attributeTuple[0], attributeTuple[1:]
+            self.assertEqual(expected[name], attrs)
+
+
+
+class WorkbenchTests(unittest.TestCase):
+    """
+    Tests for the workbench.
+    """
+    def setUp(self):
+        self.workbench = ui.Workbench()
+
+
+    def test_background(self):
+        """
+        The empty workbench's widget's body consists of a background.
+        """
+        body, _options = self.workbench.widget.contents["body"]
+        self.assertIdentical(body, ui.BACKGROUND)
+
+
+    def test_header(self):
+        """
+        The empty workbench has a header.
+
+        This checks the type of the ``header`` attribute, and verifies
+        that the header attribute's widget is used.
+        """
+        self.assertTrue(isinstance(self.workbench.header, ui.Header))
+        widget, _options = self.workbench.widget.contents["header"]
+        self.assertIdentical(self.workbench.header.widget, widget)
+
+
+    def assertDisplayed(self, tools):
+        """
+        Asserts that the given tools are displayed from top to bottom.
+        """
+        layer, _options = self.workbench.widget.contents["body"]
+        for tool in tools:
+            self.assertEqual(layer.attr_map, {None: "foreground"})
+            overlay = layer.original_widget
+            self.assertIdentical(overlay.top_w, tool.widget)
+            layer = overlay.bottom_w
+
+        self.assertIdentical(layer, ui.BACKGROUND)
+
+
+    def test_display(self):
+        """
+        The workbench displays tools.
+        """
+        tool = DummyTool(u"Tool")
+        self.workbench.display(tool)
+        self.assertDisplayed([tool])
+
+
+    def test_nestedDisplay(self):
+        """
+        The workbench displays multiple overlapping tools.
+        """
+        first = DummyTool(u"First")
+        self.workbench.display(first)
+        second = DummyTool(u"Second")
+        self.workbench.display(second)
+        self.assertDisplayed([second, first])
+
+
+    def test_clear(self):
+        """
+        Clearing the display removes existing tools.
+
+        When tools are later added again, the old tools are gone.
+        """
+        first = DummyTool(u"First")
+        self.workbench.display(first)
+        second = DummyTool(u"Second")
+        self.workbench.display(second)
+        self.workbench.clear()
+        self.assertDisplayed([])
+
+        third = DummyTool(u"Third")
+        self.workbench.display(third)
+        self.assertDisplayed([third])
+
+
+
+class DummyTool(object):
+    """
+    A dummy tool, with a title, widget and position.
+    """
+    def __init__(self, title):
+        self.title = title
+        self.widget = DummyWidget()
+        self.position = "center", 1, "middle", 1
+
+
+
+class DummyWidget(object):
+    """
+    A dummy widget.
+    """
+
+
+
+class HeaderTests(unittest.TestCase):
+    """
+    Tests for the workbench header.
+    """
+    def setUp(self):
+        self.header = ui.Header()
+
+
+    def test_title(self):
+        """
+        The header has a title which is empty and left-aligned.
+        """
+        title = self.header.title
+        self.assertEqual(title.text, u"")
+        self.assertEqual(title.align, "left")
+
+
+    def test_aside(self):
+        """
+        The header has an aside which is empty and right-aligned.
+        """
+        aside = self.header.aside
+        self.assertEqual(aside.text, u"")
+        self.assertEqual(aside.align, "right")
+
+
+    def test_widget(self):
+        """
+        The header widget consists of the title and the aside, arranged as
+        columns, and renders them with the ``header`` display attribute.
+        """
+        self.assertEqual(self.header.widget.attr_map, {None: "header"})
+        contents = self.header.widget.original_widget.contents
+        widgets = [widget for widget, _options in contents]
+        self.assertEqual(widgets, [self.header.title, self.header.aside])
