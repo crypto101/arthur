@@ -24,8 +24,10 @@ class Workbench(object):
 
     def display(self, tool):
         """
-        Displays the given tool on the workbench.
+        Displays the given tool and sets the title to its name.
         """
+        self.header.title.set_text(tool.name)
+
         body, _options = self.widget.contents["body"]
         overlay = urwid.Overlay(tool.widget, body, *tool.position)
         self._surface = urwid.AttrMap(overlay, "foreground")

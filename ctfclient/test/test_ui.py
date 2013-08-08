@@ -69,8 +69,12 @@ class WorkbenchTests(unittest.TestCase):
 
     def assertDisplayed(self, tools):
         """
-        Asserts that the given tools are displayed from top to bottom.
+        The given tools are displayed from top to bottom, and that the
+        title is that of the top tool or empty if there are no tools.
         """
+        expectedTitle = u"" if not tools else tools[0].name
+        self.assertEqual(self.workbench.header.title.text, expectedTitle)
+
         layer, _options = self.workbench.widget.contents["body"]
         for tool in tools:
             self.assertEqual(layer.attr_map, {None: "foreground"})
@@ -127,7 +131,7 @@ class DummyTool(object):
     A dummy tool, with a name, widget and position.
     """
     def __init__(self, name):
-        self.title = name
+        self.name = name
         self.widget = DummyWidget()
         self.position = "center", 1, "middle", 1
 
