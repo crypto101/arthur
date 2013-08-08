@@ -4,17 +4,6 @@ from ctfclient import ui
 from twisted.trial import unittest
 
 class ConstantsTests(unittest.TestCase):
-    def test_background(self):
-        """
-        The background is a solid fill with the right display attribute.
-        """
-        self.assertEqual(ui.BACKGROUND.attr_map, {None: "background"})
-
-        widget = ui.BACKGROUND.original_widget
-        self.assertTrue(isinstance(widget, urwid.SolidFill))
-        self.assertEqual(widget.fill_char, u"\N{LIGHT SHADE}")
-
-
     def test_palette(self):
         """
         The palette contains header, foreground and background attributes.
@@ -27,6 +16,26 @@ class ConstantsTests(unittest.TestCase):
         for attributeTuple in ui.DEFAULT_PALETTE:
             name, attrs = attributeTuple[0], attributeTuple[1:]
             self.assertEqual(expected[name], attrs)
+
+
+    def test_background(self):
+        """
+        The background is a solid fill with the right display attribute.
+        """
+        self.assertEqual(ui.BACKGROUND.attr_map, {None: "background"})
+
+        widget = ui.BACKGROUND.original_widget
+        self.assertTrue(isinstance(widget, urwid.SolidFill))
+        self.assertEqual(widget.fill_char, u"\N{LIGHT SHADE}")
+
+
+    def test_divider(self):
+        """
+        The divider consists of an upper one eight block with no padding.
+        """
+        self.assertEqual(ui.DIVIDER.div_char, u"\N{UPPER ONE EIGHTH BLOCK}")
+        self.assertEqual(ui.DIVIDER.top, 0)
+        self.assertEqual(ui.DIVIDER.bottom, 0)
 
 
 

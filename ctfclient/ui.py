@@ -9,6 +9,8 @@ DEFAULT_PALETTE = (
     ('background', 'dark gray', 'black')
 )
 BACKGROUND = urwid.AttrMap(urwid.SolidFill(u"\N{LIGHT SHADE}"), "background")
+DIVIDER = urwid.Divider(u'\N{UPPER ONE EIGHTH BLOCK}')
+
 
 
 class Workbench(object):
