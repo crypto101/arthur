@@ -2,7 +2,7 @@ import urwid
 
 from ctfclient import ui
 from twisted.trial import unittest
-from zope.interface import verify
+from zope.interface import implementer, verify
 
 
 class ConstantsTests(unittest.TestCase):
@@ -128,6 +128,7 @@ class WorkbenchTests(unittest.TestCase):
 
 
 
+@implementer(ui.ITool)
 class DummyTool(object):
     """
     A dummy tool, with a name, widget and position.
