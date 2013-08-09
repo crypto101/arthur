@@ -3,6 +3,8 @@ Game user interface.
 """
 import urwid
 
+from zope import interface
+
 DEFAULT_PALETTE = (
     ('header', 'black', 'dark green'),
     ('foreground', 'dark green', 'black'),
@@ -57,6 +59,30 @@ class Header(object):
 
 
 
+class ITool(interface.Interface):
+    """
+    A tool, displayable by a workbench.
+    """
+    name = interface.Attribute(
+        """
+        The name of the tool, which will be used in the title.
+        """)
+
+
+    widget = interface.Attribute(
+        """
+        The widget that will be displayed on the workbench.
+        """)
+
+
+    position = interface.Attribute(
+        """
+        The position of the tool's widget on the workbench.
+        """)
+
+
+
+@interface.implementer(ITool)
 class Launcher(object):
     """The launcher.
 
