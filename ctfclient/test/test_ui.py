@@ -179,3 +179,52 @@ class HeaderTests(unittest.TestCase):
         contents = self.header.widget.original_widget.contents
         widgets = [widget for widget, _options in contents]
         self.assertEqual(widgets, [self.header.title, self.header.aside])
+
+
+
+class FakeWorkbench(object):
+    """
+    A fake workbench.
+    """
+    def __init__(self):
+        self.tools = []
+
+
+    def display(self, tool):
+        self.tools.append(tool)
+
+
+    def clear(self):
+        self.tools = []
+
+
+
+class LauncherTests(unittest.TestCase):
+    def setUp(self):
+        self.workbench = FakeWorkbench()
+        self.tools = map(DummyTool, u"abcd")
+        self.launcher = ui.Launcher(self.workbench, self.tools)
+
+
+    def test_menu(self):
+        """
+        The menu has a title, divider and a button for each tool.
+
+        The buttons are labeled with the tool names. When clicked, the
+        buttons launch the tools.
+        """
+        elements = iter(self.launcher.menu.body)
+
+        self.assertEqual(next(elements).text, u"Select a tool to launch")
+        self.assertIdentical(next(elements), ui.DIVIDER)
+
+        for mapped, tool in zip(elements, self.tools):
+            self.assertEqual(mapped.attr_map, {None: "foreground"})
+            self.assertEqual(mapped.focus_map, {None: "header"})
+
+            button = mapped.original_widget
+            self.assertEqual(button.label, tool.name)
+
+            button.keypress((1,), "enter")
+            self.assertEqual(self.workbench.tools, [tool])
+            self.workbench.clear()

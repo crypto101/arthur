@@ -54,3 +54,35 @@ class Header(object):
         columns = urwid.Columns([self.title, self.aside])
 
         self.widget = urwid.AttrMap(columns, "header")
+
+
+
+class Launcher(object):
+    """The launcher.
+
+    The launcher is a tool that launches other tools. Since it has to
+    display other tools, it has a reference to the workbench.
+
+    """
+    position = "center", 30, "middle", 10
+
+    def __init__(self, workbench, tools):
+        self.workbench = workbench
+
+        body = [urwid.Text(u"Select a tool to launch"), DIVIDER]
+
+        for tool in tools:
+            button = urwid.Button(tool.name)
+            urwid.connect_signal(button, 'click', self._launch, tool)
+            body.append(urwid.AttrMap(button, "foreground", focus_map="header"))
+
+        self.menu = urwid.ListBox(urwid.SimpleFocusListWalker(body))
+        self.widget = urwid.LineBox(self.menu)
+
+
+    def _launch(self, _button, tool):
+        """Button callback to launch a tool.
+
+        Tells the workbench to display the given tool.
+        """
+        self.workbench.display(tool)
