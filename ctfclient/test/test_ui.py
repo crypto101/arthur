@@ -2,6 +2,8 @@ import urwid
 
 from ctfclient import ui
 from twisted.trial import unittest
+from zope.interface import verify
+
 
 class ConstantsTests(unittest.TestCase):
     def test_palette(self):
@@ -204,6 +206,13 @@ class LauncherTests(unittest.TestCase):
         self.workbench = FakeWorkbench()
         self.tools = map(DummyTool, u"abcd")
         self.launcher = ui.Launcher(self.workbench, self.tools)
+
+
+    def test_interface(self):
+        """
+        The launcher implements the ``ITool`` interface.
+        """
+        verify.verifyObject(ui.ITool, self.launcher)
 
 
     def test_menu(self):

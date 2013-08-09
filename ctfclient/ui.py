@@ -90,6 +90,7 @@ class Launcher(object):
     display other tools, it has a reference to the workbench.
 
     """
+    name = u"Launcher"
     position = "center", 30, "middle", 10
 
     def __init__(self, workbench, tools):
