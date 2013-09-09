@@ -31,7 +31,7 @@ setup(name='cryptoctf',
 
       packages=["cryptoctf", "cryptoctf.test"],
       test_suite="cryptoctf.test",
-      #setup_requires=['tox'],
+      setup_requires=['tox'],
       cmdclass={'test': Tox},
       zip_safe=True,
 
