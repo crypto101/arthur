@@ -1,7 +1,7 @@
 [run]
 branch = True
 source =
-    ctfclient
+    cryptoctf
 
 [report]
 exclude_lines =
