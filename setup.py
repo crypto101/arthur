@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 import re
-versionLine = open("ctfclient/_version.py", "rt").read()
+versionLine = open("cryptoctf/_version.py", "rt").read()
 match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", versionLine, re.M)
 versionString = match.group(1)
 
@@ -17,21 +17,21 @@ class Tox(TestCommand):
         import tox
         sys.exit(tox.cmdline([]))
 
-setup(name='ctfclient',
+setup(name='cryptoctf',
       version=versionString,
-      description='Client for the game that comes with Crypto 101, the '
-                  'introductory book on cryptography.',
+      description='Software for the exercises in Crypto 101, the introductory '
+                  'book on cryptography.',
       long_description='The game client for an online, hacker-themed text '
                        'adventure revolving around breaking cryptosystems. '
                        'Built using Twisted and Urwid.',
-      url='https://github.com/lvh/ctfclient',
+      url='https://github.com/lvh/cryptoctf',
 
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
 
-      packages=["ctfclient", "ctfclient.test"],
-      test_suite="ctfclient.test",
-      setup_requires=['tox'],
+      packages=["cryptoctf", "cryptoctf.test"],
+      test_suite="cryptoctf.test",
+      #setup_requires=['tox'],
       cmdclass={'test': Tox},
       zip_safe=True,
 

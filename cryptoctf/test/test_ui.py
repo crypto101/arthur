@@ -1,6 +1,6 @@
 import urwid
 
-from ctfclient import ui
+from cryptoctf import ui
 from twisted.trial import unittest
 from zope.interface import implementer, verify
 

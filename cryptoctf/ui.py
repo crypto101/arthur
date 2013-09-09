@@ -47,7 +47,7 @@ class Workbench(object):
 
 class Header(object):
     """
-    The header. Contains a title and an aside.
+    A header. Contains a title and an aside.
     """
     def __init__(self):
         self.title = urwid.Text(u"", align="left")
