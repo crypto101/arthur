@@ -2,7 +2,7 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-projectName = "cryptoctf"
+projectName = "arthur"
 
 import re
 versionLine = open("{0}/_version.py".format(projectName), "rt").read()
@@ -26,13 +26,13 @@ setup(name=projectName,
       long_description='The game client for an online, hacker-themed text '
                        'adventure revolving around breaking cryptosystems. '
                        'Built using Twisted and Urwid.',
-      url='https://github.com/lvh/cryptoctf',
+      url='https://github.com/lvh/arthur',
 
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
 
-      packages=["cryptoctf", "cryptoctf.test"],
-      test_suite="cryptoctf.test",
+      packages=["arthur", "arthur.test"],
+      test_suite="arthur.test",
       setup_requires=['tox'],
       cmdclass={'test': Tox},
       zip_safe=True,

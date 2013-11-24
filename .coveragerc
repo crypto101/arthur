@@ -1,7 +1,7 @@
 [run]
 branch = True
 source =
-    cryptoctf
+    arthur
 
 [report]
 exclude_lines =

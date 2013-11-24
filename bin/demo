@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import urwid
-from cryptoctf import ui
+from arthur import ui
 
 def run():
     workbench = ui.Workbench()

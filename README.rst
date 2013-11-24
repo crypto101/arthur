@@ -1,5 +1,5 @@
 ===========
- cryptoctf
+ arthur
 ===========
 
 These are the game-shaped exercises for Crypto 101, the introductory
