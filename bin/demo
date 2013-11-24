@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+import urwid
+from cryptoctf import ui
+
+def run():
+    workbench = ui.Workbench()
+    launcher = ui.Launcher(workbench, [MITMTool(), Notes()])
+    workbench.display(launcher)
+    urwid.MainLoop(workbench.widget, ui.DEFAULT_PALETTE).run()
+
+
+
+class MITMTool(object):
+    name = "mitmtool"
+    position = ("relative", 20), 30, "middle", 30
+
+    def __init__(self):
+        text = urwid.Text(u"MITM all the things here!", align="center")
+        self.widget = urwid.LineBox(urwid.Filler(text))
+
+
+class Notes(object):
+    name = "notes"
+    position = ("relative", 30), 40, ("relative", 10), 10
+
+
+if __name__ == "__main__":
+   run()
