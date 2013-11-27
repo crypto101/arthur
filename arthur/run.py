@@ -29,7 +29,7 @@ def buildMainLoop(workbench):
 
 
 def run():
-    """
-    Builds a workbench and a main loop for it, and runs the main loop.
+    """Builds a workbench and a main loop for it, and runs the main loop.
+
     """
     buildMainLoop(buildWorkbench()).run()
