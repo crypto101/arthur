@@ -1,2 +1,2 @@
-from arthur._version import __version__
-__version__ # shut up pyflakes
+from ._version import __version__
+version = __version__
