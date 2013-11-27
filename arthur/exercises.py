@@ -3,26 +3,15 @@ UI tools related to exercise search and selection.
 """
 import urwid
 
+from arthur.ui import DIVIDER
 
-class ExerciseSelectionTool(object):
-    name = u"Missions"
-    position = ("relative", 20), 30, "middle", 30
+
+class SearchTool(object):
+    name = u"Mission search"
+    position = ("relative", 20), 30, "middle", 10
 
     def __init__(self):
-        self.nextButton = urwid.Button(u"Next")
-
-        search = urwid.Edit(u"Search: ", multiline=False)
-        body = urwid.Filler(urwid.Text(u"Mission selection", align="center"))
-        self.frame = urwid.Frame(body, header=search, footer=self.nextButton)
-
-        self.widget = urwid.LineBox(self.frame)
-
-
-    def next(self):
-        pass
-
-
-
-class ExerciseSelectionCommandLocator(object):
-    def __init__(self):
-        self.tool = ExerciseSelectionTool()
+        title = urwid.Text(u"Mission search")
+        search = urwid.Edit(u"Search terms: ", multiline=False)
+        self.pile = urwid.Pile([title, DIVIDER, search])
+        self.widget = urwid.LineBox(urwid.Filler(self.pile))
