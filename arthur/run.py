@@ -25,7 +25,7 @@ def buildMainLoop(workbench):
     default unused key handler.
 
     """
-    urwid.MainLoop(workbench.widget, ui.DEFAULT_PALETTE)
+    return urwid.MainLoop(workbench.widget, ui.DEFAULT_PALETTE)
 
 
 def run():
