@@ -26,3 +26,10 @@ def buildMainLoop(workbench):
 
     """
     urwid.MainLoop(workbench.widget, ui.DEFAULT_PALETTE)
+
+
+def run():
+    """
+    Builds a workbench and a main loop for it, and runs the main loop.
+    """
+    buildMainLoop(buildWorkbench()).run()
