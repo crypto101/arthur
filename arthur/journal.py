@@ -8,7 +8,6 @@ class Journal(object):
     name = u"Journal"
 
     def __init__(self):
-
         self.nextButton = urwid.Button(u"Next")
 
         self.frame = urwid.Frame()
