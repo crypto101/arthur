@@ -5,7 +5,7 @@ from twisted.trial import unittest
 from zope.interface import implementer, verify
 
 
-class ConstantsTests(unittest.TestCase):
+class ConstantsTests(unittest.SynchronousTestCase):
     def test_palette(self):
         """
         The palette contains header, foreground and background attributes.
@@ -41,7 +41,7 @@ class ConstantsTests(unittest.TestCase):
 
 
 
-class WorkbenchTests(unittest.TestCase):
+class WorkbenchTests(unittest.SynchronousTestCase):
     """
     Tests for the workbench.
     """
@@ -147,7 +147,7 @@ class DummyWidget(object):
 
 
 
-class HeaderTests(unittest.TestCase):
+class HeaderTests(unittest.SynchronousTestCase):
     """
     Tests for the workbench header.
     """
@@ -202,7 +202,7 @@ class FakeWorkbench(object):
 
 
 
-class LauncherTests(unittest.TestCase):
+class LauncherTests(unittest.SynchronousTestCase):
     def setUp(self):
         self.workbench = FakeWorkbench()
         self.tools = map(DummyTool, u"abcd")
