@@ -59,7 +59,7 @@ class Header(object):
 
 
 
-def _unhandledEvent(event):
+def _unhandledInput(event):
     """Handles input events that weren't handled anywhere else.
 
     """

@@ -28,5 +28,6 @@ def buildMainLoop(workbench, **kwargs):
     """
     mainLoop = urwid.MainLoop(widget=workbench.widget,
                               palette=ui.DEFAULT_PALETTE,
+                              unhandled_input=ui._unhandledInput,
                               **kwargs)
     return mainLoop

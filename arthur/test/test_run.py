@@ -31,6 +31,7 @@ class RunLogicTests(unittest.SynchronousTestCase):
         mainLoop = run.buildMainLoop(workbench, screen=screen)
         self.assertIdentical(mainLoop.widget, workbench.widget)
         self.assertIdentical(screen.palette, ui.DEFAULT_PALETTE)
+        self.assertIdentical(mainLoop._unhandled_input, ui._unhandledInput)
 
 
 
