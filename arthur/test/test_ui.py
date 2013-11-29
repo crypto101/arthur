@@ -169,8 +169,8 @@ class HeaderTests(unittest.SynchronousTestCase):
         The header has an aside which is empty and right-aligned.
         """
         aside = self.header.aside
-        self.assertEqual(aside.text, u"")
         self.assertEqual(aside.align, "right")
+        self.assertIn(u"C-w to quit", aside.text)
 
 
     def test_widget(self):

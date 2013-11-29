@@ -51,7 +51,7 @@ class Header(object):
     """
     def __init__(self):
         self.title = urwid.Text(u"", align="left")
-        self.aside = urwid.Text(u"", align="right")
+        self.aside = urwid.Text(u"Press C-w to quit", align="right")
 
         columns = urwid.Columns([self.title, self.aside])
 
