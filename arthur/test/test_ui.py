@@ -238,3 +238,12 @@ class LauncherTests(unittest.SynchronousTestCase):
             button.keypress((1,), "enter")
             self.assertEqual(self.workbench.tools, [tool])
             self.workbench.clear()
+
+
+
+class UnhandledEventTests(unittest.SynchronousTestCase):
+    def test_quit(self):
+        """The unhandled event handler raises urwid.ExitMainLoop on C-q.
+
+        """
+        self.assertRaises(urwid.ExitMainLoop, ui._unhandledEvent, "ctrl q")

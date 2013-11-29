@@ -59,6 +59,15 @@ class Header(object):
 
 
 
+def _unhandledEvent(event):
+    """Handles input events that weren't handled anywhere else.
+
+    """
+    if event == "ctrl q":
+        raise urwid.ExitMainLoop()
+
+
+
 class ITool(interface.Interface):
     """
     A tool, displayable by a workbench.
