@@ -23,7 +23,8 @@ class RunLogicTests(unittest.SynchronousTestCase):
 
     def test_buildMainLoop(self):
         """A mainloop uses the given workbench's widget and the default
-        palette.
+        palette. It also uses the default unhandled input handler,
+        partially applied with the workbench.
 
         """
         workbench = run.buildWorkbench()
@@ -31,7 +32,10 @@ class RunLogicTests(unittest.SynchronousTestCase):
         mainLoop = run.buildMainLoop(workbench, screen=screen)
         self.assertIdentical(mainLoop.widget, workbench.widget)
         self.assertIdentical(screen.palette, ui.DEFAULT_PALETTE)
-        self.assertIdentical(mainLoop._unhandled_input, ui._unhandledInput)
+
+        unhandledInput = mainLoop._unhandled_input
+        self.assertIdentical(unhandledInput.func, ui._unhandledInput)
+        self.assertEqual(unhandledInput.keywords, {"workbench": workbench})
 
 
 

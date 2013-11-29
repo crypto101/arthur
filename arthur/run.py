@@ -1,5 +1,7 @@
 import urwid
+
 from arthur import exercises, ui
+from functools import partial
 
 
 def buildWorkbench():
@@ -26,8 +28,9 @@ def buildMainLoop(workbench, **kwargs):
 
     The extra keyword arguments are passed to the main loop.
     """
+    unhandledInput = partial(ui._unhandledInput, workbench=workbench)
     mainLoop = urwid.MainLoop(widget=workbench.widget,
                               palette=ui.DEFAULT_PALETTE,
-                              unhandled_input=ui._unhandledInput,
+                              unhandled_input=unhandledInput,
                               **kwargs)
     return mainLoop
