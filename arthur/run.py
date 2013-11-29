@@ -18,18 +18,15 @@ def buildWorkbench():
     return workbench
 
 
-def buildMainLoop(workbench):
+def buildMainLoop(workbench, **kwargs):
     """Builds a main loop from the given workbench.
 
     The main loop will have the default pallette, as well as the
     default unused key handler.
 
+    The extra keyword arguments are passed to the main loop.
     """
-    return urwid.MainLoop(workbench.widget, ui.DEFAULT_PALETTE)
-
-
-def run():
-    """Builds a workbench and a main loop for it, and runs the main loop.
-
-    """
-    buildMainLoop(buildWorkbench()).run()
+    mainLoop = urwid.MainLoop(widget=workbench.widget,
+                              palette=ui.DEFAULT_PALETTE,
+                              **kwargs)
+    return mainLoop

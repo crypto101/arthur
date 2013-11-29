@@ -1,8 +1,8 @@
-from arthur import run, exercises
+from arthur import run, exercises, ui
 from twisted.trial import unittest
 
 
-class BuildWorkbenchTests(unittest.SynchronousTestCase):
+class RunLogicTests(unittest.SynchronousTestCase):
     def test_buildWorkbench(self):
         """The workbench has a launcher with all the default tools. The
         launcher is displayed.
@@ -19,3 +19,28 @@ class BuildWorkbenchTests(unittest.SynchronousTestCase):
 
         searchToolButton = toolButtons[0].original_widget
         self.assertEqual(searchToolButton.label, exercises.SearchTool.name)
+
+
+    def test_buildMainLoop(self):
+        """A mainloop uses the given workbench's widget and the default
+        palette.
+
+        """
+        workbench = run.buildWorkbench()
+        screen = FakeScreen()
+        mainLoop = run.buildMainLoop(workbench, screen=screen)
+        self.assertIdentical(mainLoop.widget, workbench.widget)
+        self.assertIdentical(screen.palette, ui.DEFAULT_PALETTE)
+
+
+
+class FakeScreen(object):
+    """
+    A fake urwid screen.
+    """
+    def __init__(self):
+        self.palette = None
+
+
+    def register_palette(self, palette):
+        self.palette = palette
