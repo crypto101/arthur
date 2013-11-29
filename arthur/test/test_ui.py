@@ -243,7 +243,7 @@ class LauncherTests(unittest.SynchronousTestCase):
 
 class UnhandledInputTests(unittest.SynchronousTestCase):
     def test_quit(self):
-        """The unhandled input handler raises urwid.ExitMainLoop on C-q.
+        """The unhandled input handler raises urwid.ExitMainLoop on C-w.
 
         """
-        self.assertRaises(urwid.ExitMainLoop, ui._unhandledInput, "ctrl q")
+        self.assertRaises(urwid.ExitMainLoop, ui._unhandledInput, "ctrl w")

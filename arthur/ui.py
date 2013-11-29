@@ -63,7 +63,7 @@ def _unhandledInput(event):
     """Handles input events that weren't handled anywhere else.
 
     """
-    if event == "ctrl q":
+    if event == "ctrl w":
         raise urwid.ExitMainLoop()
 
 
