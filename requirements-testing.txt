@@ -1,4 +1,5 @@
-Twisted
+Twisted # For trial
 coverage
-pudb
-pyroma
+pudb # Fancy debugger
+ipython # Fancy debugger shell
+pyroma # For packaging QA
