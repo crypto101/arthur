@@ -261,3 +261,11 @@ class UnhandledInputTests(unittest.SynchronousTestCase):
         returnValue = ui._unhandledInput("esc", workbench=workbench)
         self.assertTrue(returnValue)
         self.assertEqual(workbench.tools, [])
+
+
+    def test_other(self):
+        """The unhandled input handler returns a falsey value for an unhandled
+        event.
+
+        """
+        self.assertFalse(ui._unhandledInput("xyzzy", workbench=None))
