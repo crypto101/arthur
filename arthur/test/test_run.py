@@ -8,7 +8,7 @@ class RunLogicTests(unittest.SynchronousTestCase):
         launcher is displayed.
 
         """
-        workbench = run.buildWorkbench()
+        workbench, _launcher = run.buildWorkbenchWithLauncher()
         self.assertEqual(workbench.header.title.text, u"Launcher")
 
         attrMap, _opts = workbench.widget.contents["body"]
@@ -27,15 +27,16 @@ class RunLogicTests(unittest.SynchronousTestCase):
         partially applied with the workbench.
 
         """
-        workbench = run.buildWorkbench()
+        workbench, launcher = run.buildWorkbenchWithLauncher()
         screen = FakeScreen()
-        mainLoop = run.buildMainLoop(workbench, screen=screen)
+        mainLoop = run.buildMainLoop(workbench, launcher, screen=screen)
         self.assertIdentical(mainLoop.widget, workbench.widget)
         self.assertIdentical(screen.palette, ui.DEFAULT_PALETTE)
 
         unhandledInput = mainLoop._unhandled_input
         self.assertIdentical(unhandledInput.func, ui._unhandledInput)
-        self.assertEqual(unhandledInput.keywords, {"workbench": workbench})
+        self.assertEqual(unhandledInput.keywords,
+                         {"workbench": workbench, "launcher": launcher})
 
 
 

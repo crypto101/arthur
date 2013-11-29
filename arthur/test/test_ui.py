@@ -247,20 +247,23 @@ class UnhandledInputTests(unittest.SynchronousTestCase):
 
         """
         self.assertRaises(urwid.ExitMainLoop,
-                          ui._unhandledInput, "ctrl w", workbench=None)
+                          ui._unhandledInput, "ctrl w",
+                          workbench=None, launcher=None)
 
 
     def test_clear(self):
-        """The workbench is cleared when escape is pressed.
+        """When escape is pressed, the workbench shows just the launcher.
 
         """
         workbench = FakeWorkbench()
-        workbench.display(object())
+        launcher = object()
+        workbench.display(launcher)
         self.assertNotEqual(workbench.tools, [])
 
-        returnValue = ui._unhandledInput("esc", workbench=workbench)
-        self.assertTrue(returnValue)
-        self.assertEqual(workbench.tools, [])
+        self.assertTrue(ui._unhandledInput("esc",
+                                         workbench=workbench,
+                                         launcher=launcher))
+        self.assertEqual(workbench.tools, [launcher])
 
 
     def test_other(self):
@@ -268,4 +271,5 @@ class UnhandledInputTests(unittest.SynchronousTestCase):
         event.
 
         """
-        self.assertFalse(ui._unhandledInput("xyzzy", workbench=None))
+        self.assertFalse(ui._unhandledInput(
+            "xyzzy", workbench=None, launcher=None))

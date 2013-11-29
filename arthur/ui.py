@@ -59,7 +59,7 @@ class Header(object):
 
 
 
-def _unhandledInput(event, workbench):
+def _unhandledInput(event, workbench, launcher):
     """Handles input events that weren't handled anywhere else.
 
     """
@@ -67,6 +67,7 @@ def _unhandledInput(event, workbench):
         raise urwid.ExitMainLoop()
     elif event == "esc":
         workbench.clear()
+        workbench.display(launcher)
         return True
 
 
