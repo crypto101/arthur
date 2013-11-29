@@ -246,4 +246,18 @@ class UnhandledInputTests(unittest.SynchronousTestCase):
         """The unhandled input handler raises urwid.ExitMainLoop on C-w.
 
         """
-        self.assertRaises(urwid.ExitMainLoop, ui._unhandledInput, "ctrl w")
+        self.assertRaises(urwid.ExitMainLoop,
+                          ui._unhandledInput, "ctrl w", workbench=None)
+
+
+    def test_clear(self):
+        """The workbench is cleared when escape is pressed.
+
+        """
+        workbench = FakeWorkbench()
+        workbench.display(object())
+        self.assertNotEqual(workbench.tools, [])
+
+        returnValue = ui._unhandledInput("esc", workbench=workbench)
+        self.assertTrue(returnValue)
+        self.assertEqual(workbench.tools, [])

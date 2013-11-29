@@ -59,12 +59,15 @@ class Header(object):
 
 
 
-def _unhandledInput(event):
+def _unhandledInput(event, workbench):
     """Handles input events that weren't handled anywhere else.
 
     """
     if event == "ctrl w":
         raise urwid.ExitMainLoop()
+    elif event == "esc":
+        workbench.clear()
+        return True
 
 
 
