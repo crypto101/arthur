@@ -26,7 +26,7 @@ setup(name=packageName,
       long_description='The game client for an online, hacker-themed text '
                        'adventure revolving around breaking cryptosystems. '
                        'Built using Twisted and Urwid.',
-      url='https://github.com/lvh/arthur',
+      url='https://github.com/crypto101/' + packageName,
 
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
