@@ -2,10 +2,10 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-projectName = "arthur"
+packageName = "arthur"
 
 import re
-versionLine = open("{0}/_version.py".format(projectName), "rt").read()
+versionLine = open("{0}/_version.py".format(packageName), "rt").read()
 match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", versionLine, re.M)
 versionString = match.group(1)
 
@@ -19,7 +19,7 @@ class Tox(TestCommand):
         import tox
         sys.exit(tox.cmdline([]))
 
-setup(name=projectName,
+setup(name=packageName,
       version=versionString,
       description='Software for the exercises in Crypto 101, the introductory '
                   'book on cryptography.',
