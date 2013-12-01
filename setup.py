@@ -23,9 +23,7 @@ setup(name=packageName,
       version=versionString,
       description='Software for the exercises in Crypto 101, the introductory '
                   'book on cryptography.',
-      long_description='The game client for an online, hacker-themed text '
-                       'adventure revolving around breaking cryptosystems. '
-                       'Built using Twisted and Urwid.',
+      long_description=open("README.rst").read(),
       url='https://github.com/crypto101/' + packageName,
 
       author='Laurens Van Houtven',
