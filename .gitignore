@@ -16,6 +16,7 @@ _trial_temp
 MANIFEST
 dist/*
 *.egg-info/*
+*.egg
 
 # Sphinx
 _build
