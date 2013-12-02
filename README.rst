@@ -21,15 +21,19 @@ The long version: see the extra notes for merlin_.
 Whence the name?
 ================
 
-The server side to this is called merlin_, because the step-by-step
+The server side to this is called merlyn_, because the step-by-step
 oracle-like model reminded me of Merlin in the AM complexity class and
-`Arthur-Merlin protocols`_. Since Arthur is the person who performs
-the protocol together with Merlin, it only made sense to name this
-project `arthur`. Finally, clarent_, named after king Arthur's
-ceremonial sword, holds common tools.
+`Arthur-Merlin protocols`_. (It's not spelled the usual Merlin,
+because that primo PyPI real estate was already taken up by some weird
+setuptools fork.)
+
+Since Arthur is the person who performs the protocol together with
+Merlin, it only made sense to name this project `arthur`. Finally,
+clarent_, named after king Arthur's ceremonial sword, holds common
+tools.
 
 .. _lvh: https://twitter.com/lvh/
 .. _tox: https://testrun.org/tox/
-.. _merlin: https://github.com/crypto101/merlin
+.. _merlyn: https://github.com/crypto101/merlyn
 .. _clarent: https://github.com/crypto101/clarent
 .. _`Arthur-Merlin protocols`: https://en.wikipedia.org/wiki/Merlin-Arthur_protocol
