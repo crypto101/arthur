@@ -16,7 +16,7 @@ Testing and documentation
 
 The short version: use tox_.
 
-The long version: see the extra notes for merlin_.
+The long version: see the extra notes for merlyn_.
 
 Whence the name?
 ================
