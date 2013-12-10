@@ -3,6 +3,7 @@ Game user interface.
 """
 import urwid
 
+from arthur.util import MultiDeferred
 from zope import interface
 
 DEFAULT_PALETTE = (
@@ -161,15 +162,47 @@ class Prompt(object):
     def __init__(self, name, promptText, buttonText=u"OK"):
         self.name = name
         self.prompt = urwid.Edit(promptText, multiline=False)
-        button = urwid.Button(buttonText)
-        urwid.connect_signal(button, 'click', self._completed)
+        self.button = urwid.Button(buttonText, self._completed)
         self.pile = urwid.Pile([
-            urwid.Text(name), DIVIDER, self.prompt, button
+            urwid.Text(name), DIVIDER, self.prompt, self.button
         ])
         self.widget = urwid.LineBox(urwid.Filler(self.pile))
 
+        self._result = MultiDeferred()
 
-    def _completed(self, _button):
-        """The prompt was completed. You probably want to override this.
+
+    def notifyCompleted(self):
+        """Request to be notified when this prompt is completed.
 
         """
+        return self._result.tee()
+
+
+    def _completed(self):
+        """The prompt was completed. Fire all waiting deferreds. with the
+        current result.
+
+        """
+        self._result.callback(self.prompt.edit_text)
+
+
+
+def prompt(workbench, name, promptText, buttonText=u"OK"):
+    """Runs a prompt.
+
+    """
+    prompt = Prompt(name, promptText, buttonText)
+    workbench.display(prompt)
+
+    d = prompt.notifyCompleted()
+    d.addCallback(_promptCompleted, workbench)
+    return d
+
+
+def _promptCompleted(result, workbench):
+    """The prompt was completed; undisplay the prompt tool and return the
+    result.
+
+    """
+    workbench.undisplay()
+    return result

@@ -293,10 +293,14 @@ class PromptTests(SynchronousTestCase):
         self.assertEqual(tool.name, u"name")
 
         edit = tool.prompt
-        edit_text, _attrs = edit.get_text()
-        self.assertEqual(edit_text, u"prompt text")
+        editText, _attrs = edit.get_text()
+        self.assertEqual(editText, u"prompt text")
+
+        edit.insert_text(u"entered value")
 
         button = tool.button
         self.assertEqual(button.label, u"button text")
+        urwid.emit_signal(button, "click")
 
         self.assertEqual(self.successResultOf(d), u"entered value")
+        self.assertEqual(workbench.tools, [])
