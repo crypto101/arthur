@@ -288,7 +288,7 @@ class NotificationTests(SynchronousTestCase):
         """The notification class implements the tool interface.
 
         """
-        notification = ui.Notification(u"name", u"text")
+        notification = ui._Notification(u"name", u"text")
         verify.verifyObject(ui.ITool, notification)
 
 
@@ -319,7 +319,7 @@ class PromptTests(SynchronousTestCase):
         """The prompt class implements the tool interface.
 
         """
-        prompt = ui.Prompt(u"name", u"prompt")
+        prompt = ui._Prompt(u"name", u"prompt")
         verify.verifyObject(ui.ITool, prompt)
 
 

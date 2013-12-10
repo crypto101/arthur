@@ -191,7 +191,7 @@ class _PopUp(object):
 
 
 
-class Notification(_PopUp):
+class _Notification(_PopUp):
     """
     A generic notification.
     """
@@ -202,12 +202,12 @@ def notify(workbench, name, text, buttonText=u"OK"):
     """Runs a notification.
 
     """
-    notification = Notification(name, text, buttonText)
+    notification = _Notification(name, text, buttonText)
     return _runPopUp(workbench, notification)
 
 
 
-class Prompt(_PopUp):
+class _Prompt(_PopUp):
     """
     A generic prompt for a single string value.
     """
@@ -234,7 +234,7 @@ def prompt(workbench, name, promptText, buttonText=u"OK"):
     """Runs a prompt.
 
     """
-    prompt = Prompt(name, promptText, buttonText)
+    prompt = _Prompt(name, promptText, buttonText)
     return _runPopUp(workbench, prompt)
 
 
