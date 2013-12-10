@@ -1,2 +1,2 @@
 urwid
-clarent==0.0.4
+clarent==0.0.5
