@@ -22,11 +22,21 @@ class Workbench(object):
     def __init__(self):
         self.header = Header()
         self.widget = urwid.Frame(header=self.header.widget, body=BACKGROUND)
+        self._tools = []
 
 
     def display(self, tool):
+        """Displays the given tool above the current layer, and sets the
+        title to its name.
+
         """
-        Displays the given tool and sets the title to its name.
+        self._tools.append(tool)
+        self._justDisplay(tool)
+
+
+    def _justDisplay(self, tool):
+        """
+        Displays the given tool. Does not register it in the tools list.
         """
         self.header.title.set_text(tool.name)
 
@@ -36,10 +46,22 @@ class Workbench(object):
         self.widget.contents["body"] = self._surface, None
 
 
+    def undisplay(self):
+        """Undisplays the top tool.
+
+        This actually forces a complete re-render.
+        """
+        self._tools.pop()
+        self.clear()
+        for tool in self._tools:
+            self._justDisplay(tool)
+
+
     def clear(self):
         """
         Clears the workbench.
         """
+        self._tools = []
         self.header.title.set_text(u"")
         self.widget.contents["body"] = BACKGROUND, None
 
