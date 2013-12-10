@@ -18,6 +18,22 @@ The short version: use tox_.
 
 The long version: see the extra notes for merlyn_.
 
+Changelog
+=========
+
+0.0.2 (WIP)
+-----------
+
+UI features:
+
+- A workbench, a sort of desktop on which everything sits.
+- A launcher, which sits on the workbench, and lets you launch tools.
+
+0.0.1
+-----
+
+Ad-hoc hackery.
+
 Whence the name?
 ================
 
