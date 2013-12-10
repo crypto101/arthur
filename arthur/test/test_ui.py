@@ -1,11 +1,11 @@
 import urwid
 
 from arthur import ui
-from twisted.trial import unittest
+from twisted.trial.unittest import SynchronousTestCase
 from zope.interface import implementer, verify
 
 
-class ConstantsTests(unittest.SynchronousTestCase):
+class ConstantsTests(SynchronousTestCase):
     def test_palette(self):
         """
         The palette contains header, foreground and background attributes.
@@ -41,7 +41,7 @@ class ConstantsTests(unittest.SynchronousTestCase):
 
 
 
-class WorkbenchTests(unittest.SynchronousTestCase):
+class WorkbenchTests(SynchronousTestCase):
     """
     Tests for the workbench.
     """
@@ -147,7 +147,7 @@ class DummyWidget(object):
 
 
 
-class HeaderTests(unittest.SynchronousTestCase):
+class HeaderTests(SynchronousTestCase):
     """
     Tests for the workbench header.
     """
@@ -206,7 +206,7 @@ class FakeWorkbench(object):
 
 
 
-class LauncherTests(unittest.SynchronousTestCase):
+class LauncherTests(SynchronousTestCase):
     def setUp(self):
         self.workbench = FakeWorkbench()
         self.tools = map(DummyTool, u"abcd")
@@ -245,7 +245,7 @@ class LauncherTests(unittest.SynchronousTestCase):
 
 
 
-class UnhandledInputTests(unittest.SynchronousTestCase):
+class UnhandledInputTests(SynchronousTestCase):
     def test_quit(self):
         """The unhandled input handler raises urwid.ExitMainLoop on C-w.
 
