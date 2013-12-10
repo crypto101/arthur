@@ -1,17 +1,11 @@
 """
 UI tools related to exercise search and selection.
 """
-import urwid
-
-from arthur.ui import DIVIDER
+from arthur.ui import Prompt
 
 
-class SearchTool(object):
-    name = u"Mission search"
+class SearchTool(Prompt):
     position = ("relative", 20), 30, "middle", 10
 
     def __init__(self):
-        title = urwid.Text(u"Mission search")
-        search = urwid.Edit(u"Search terms: ", multiline=False)
-        self.pile = urwid.Pile([title, DIVIDER, search])
-        self.widget = urwid.LineBox(urwid.Filler(self.pile))
+        Prompt.__init__(self, u"Mission search", u"Search terms: ")
