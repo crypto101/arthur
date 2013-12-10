@@ -281,6 +281,14 @@ class UnhandledInputTests(SynchronousTestCase):
 
 
 class PromptTests(SynchronousTestCase):
+    def test_interface(self):
+        """The prompt class implements the tool interface.
+
+        """
+        prompt = ui.Prompt(u"name", u"prompt")
+        verify.verifyObject(ui.ITool, prompt)
+
+
     def test_prompt(self):
         """The prompt convenience function displays a prompt. When the prompt
         is completed, the result is provided in the given deferred.
