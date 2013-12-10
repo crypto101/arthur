@@ -280,6 +280,40 @@ class UnhandledInputTests(SynchronousTestCase):
 
 
 
+class NotificationTests(SynchronousTestCase):
+    """Tests for pop-up notifications.
+
+    """
+    def test_interface(self):
+        """The notification class implements the tool interface.
+
+        """
+        notification = ui.Notification(u"name", u"text")
+        verify.verifyObject(ui.ITool, notification)
+
+
+    def test_notify(self):
+        """The notify convenience function displays a notification. When it
+        is dismissed, the returned deferred fires.
+
+        """
+        workbench = FakeWorkbench()
+        d = ui.notify(workbench, u"name", u"notification text", u"button text")
+
+        tool, = workbench.tools
+        self.assertEqual(tool.name, u"name")
+
+        self.assertEqual(tool.textWidget.text, u"notification text")
+
+        button = tool.button
+        self.assertEqual(button.label, u"button text")
+        urwid.emit_signal(button, "click")
+
+        self.assertEqual(self.successResultOf(d), None)
+        self.assertEqual(workbench.tools, [])
+
+
+
 class PromptTests(SynchronousTestCase):
     def test_interface(self):
         """The prompt class implements the tool interface.

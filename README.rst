@@ -28,6 +28,7 @@ UI features:
 
 - A workbench, a sort of desktop on which everything sits.
 - A launcher, which sits on the workbench, and lets you launch tools.
+- Pop up utilities: notifications, prompts.
 
 0.0.1
 -----

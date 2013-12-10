@@ -153,22 +153,27 @@ class Launcher(object):
 
 
 @interface.implementer(ITool)
-class Prompt(object):
+class _PopUp(object):
     """
-    A generic prompt.
+    A generic pop-up.
     """
     position = ("relative", 20), 30, "middle", 10
 
-    def __init__(self, name, promptText, buttonText=u"OK"):
+    def __init__(self, name, text, buttonText=u"OK"):
         self.name = name
-        self.prompt = urwid.Edit(promptText, multiline=False)
+        self.textWidget = self._textWidgetFactory(text)
         self.button = urwid.Button(buttonText, self._completed)
         self.pile = urwid.Pile([
-            urwid.Text(name), DIVIDER, self.prompt, self.button
+            urwid.Text(name), DIVIDER, self.textWidget, self.button
         ])
         self.widget = urwid.LineBox(urwid.Filler(self.pile))
 
         self._result = MultiDeferred()
+
+
+    @staticmethod
+    def _textWidgetFactory(text):
+        return urwid.Text(text)
 
 
     def notifyCompleted(self):
@@ -179,8 +184,46 @@ class Prompt(object):
 
 
     def _completed(self):
-        """The prompt was completed. Fire all waiting deferreds. with the
-        current result.
+        """Call the completion deferreds that have been handed out.
+
+        """
+        self._result.callback(None)
+
+
+
+class Notification(_PopUp):
+    """
+    A generic notification.
+    """
+
+
+
+def notify(workbench, name, text, buttonText=u"OK"):
+    """Runs a notification.
+
+    """
+    notification = Notification(name, text, buttonText)
+    return _runPopUp(workbench, notification)
+
+
+
+class Prompt(_PopUp):
+    """
+    A generic prompt for a single string value.
+    """
+    def __init__(self, name, promptText, buttonText=u"OK"):
+        _PopUp.__init__(self, name, promptText, buttonText)
+        self.prompt = self.textWidget
+
+
+    @staticmethod
+    def _textWidgetFactory(text):
+        return urwid.Edit(text, multiline=False)
+
+
+    def _completed(self):
+        """The prompt was completed. Fire all waiting deferreds with the
+        prompt's edit text.
 
         """
         self._result.callback(self.prompt.edit_text)
@@ -192,16 +235,24 @@ def prompt(workbench, name, promptText, buttonText=u"OK"):
 
     """
     prompt = Prompt(name, promptText, buttonText)
-    workbench.display(prompt)
+    return _runPopUp(workbench, prompt)
 
-    d = prompt.notifyCompleted()
-    d.addCallback(_promptCompleted, workbench)
+
+def _runPopUp(workbench, popUp):
+    """Displays the pop-up on the workbench and gets a completion
+    notification deferred. When that fires, undisplay the pop-up and
+    return the result of the notification deferred verbatim.
+
+    """
+    workbench.display(popUp)
+
+    d = popUp.notifyCompleted()
+    d.addCallback(_popUpCompleted, workbench)
     return d
 
 
-def _promptCompleted(result, workbench):
-    """The prompt was completed; undisplay the prompt tool and return the
-    result.
+def _popUpCompleted(result, workbench):
+    """The popUp was completed; undisplay it and return the result.
 
     """
     workbench.undisplay()
