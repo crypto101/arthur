@@ -202,7 +202,7 @@ class FakeWorkbench(object):
 
 
     def clear(self):
-        self.tools.clear()
+        del self.tools[:]
 
 
 
@@ -277,3 +277,26 @@ class UnhandledInputTests(SynchronousTestCase):
         """
         self.assertFalse(ui._unhandledInput(
             "xyzzy", workbench=None, launcher=None))
+
+
+
+class PromptTests(SynchronousTestCase):
+    def test_prompt(self):
+        """The prompt convenience function displays a prompt. When the prompt
+        is completed, the result is provided in the given deferred.
+
+        """
+        workbench = FakeWorkbench()
+        d = ui.prompt(workbench, u"name", u"prompt text", u"button text")
+
+        tool, = workbench.tools
+        self.assertEqual(tool.name, u"name")
+
+        edit = tool.prompt
+        edit_text, _attrs = edit.get_text()
+        self.assertEqual(edit_text, u"prompt text")
+
+        button = tool.button
+        self.assertEqual(button.label, u"button text")
+
+        self.assertEqual(self.successResultOf(d), u"entered value")
