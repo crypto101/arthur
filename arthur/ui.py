@@ -158,9 +158,18 @@ class Prompt(object):
     """
     position = ("relative", 20), 30, "middle", 10
 
-    def __init__(self, name, promptText):
+    def __init__(self, name, promptText, buttonText=u"OK"):
         self.name = name
-        title = urwid.Text(name)
-        prompt = urwid.Edit(promptText, multiline=False)
-        self.pile = urwid.Pile([title, DIVIDER, prompt])
+        self.prompt = urwid.Edit(promptText, multiline=False)
+        button = urwid.Button(buttonText)
+        urwid.connect_signal(button, 'click', self._completed)
+        self.pile = urwid.Pile([
+            urwid.Text(name), DIVIDER, self.prompt, button
+        ])
         self.widget = urwid.LineBox(urwid.Filler(self.pile))
+
+
+    def _completed(self, _button):
+        """The prompt was completed. You probably want to override this.
+
+        """
