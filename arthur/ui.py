@@ -126,3 +126,19 @@ class Launcher(object):
         Tells the workbench to display the given tool.
         """
         self.workbench.display(tool)
+
+
+
+@interface.implementer(ITool)
+class Prompt(object):
+    """
+    A generic prompt.
+    """
+    position = ("relative", 20), 30, "middle", 10
+
+    def __init__(self, name, promptText):
+        self.name = name
+        title = urwid.Text(name)
+        prompt = urwid.Edit(promptText, multiline=False)
+        self.pile = urwid.Pile([title, DIVIDER, prompt])
+        self.widget = urwid.LineBox(urwid.Filler(self.pile))
