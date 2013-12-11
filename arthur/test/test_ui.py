@@ -298,16 +298,14 @@ class NotificationTests(SynchronousTestCase):
 
         """
         workbench = FakeWorkbench()
-        d = ui.notify(workbench, u"name", u"notification text", u"button text")
+        d = ui.notify(workbench, u"name", u"notification text")
 
         tool, = workbench.tools
         self.assertEqual(tool.name, u"name")
 
         self.assertEqual(tool.textWidget.text, u"notification text")
 
-        button = tool.button
-        self.assertEqual(button.label, u"button text")
-        urwid.emit_signal(button, "click")
+        urwid.emit_signal(tool.button, "click")
 
         self.assertEqual(self.successResultOf(d), None)
         self.assertEqual(workbench.tools, [])
@@ -329,7 +327,7 @@ class PromptTests(SynchronousTestCase):
 
         """
         workbench = FakeWorkbench()
-        d = ui.prompt(workbench, u"name", u"prompt text", u"button text")
+        d = ui.prompt(workbench, u"name", u"prompt text")
 
         tool, = workbench.tools
         self.assertEqual(tool.name, u"name")
@@ -340,9 +338,7 @@ class PromptTests(SynchronousTestCase):
 
         edit.insert_text(u"entered value")
 
-        button = tool.button
-        self.assertEqual(button.label, u"button text")
-        urwid.emit_signal(button, "click")
+        urwid.emit_signal(tool.button, "click")
 
         self.assertEqual(self.successResultOf(d), u"entered value")
         self.assertEqual(workbench.tools, [])
