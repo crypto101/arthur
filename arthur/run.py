@@ -35,5 +35,6 @@ def buildMainLoop(workbench, launcher, **kwargs):
     mainLoop = urwid.MainLoop(widget=workbench.widget,
                               palette=ui.DEFAULT_PALETTE,
                               unhandled_input=unhandledInput,
+                              event_loop=urwid.TwistedEventLoop(),
                               **kwargs)
     return mainLoop

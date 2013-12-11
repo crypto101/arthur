@@ -50,3 +50,10 @@ class FakeScreen(object):
 
     def register_palette(self, palette):
         self.palette = palette
+
+
+    def get_input_descriptors(self, *a, **kw):
+        """Needed to fake event loop support.
+
+        """
+        return [] # pragma: no cover
