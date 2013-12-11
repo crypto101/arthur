@@ -234,11 +234,11 @@ class _ButtonPopUp(_PopUp):
         return self._result.tee()
 
 
-    def _completed(self, result=None):
+    def _completed(self, _button=None):
         """Call the completion deferreds that have been handed out.
 
         """
-        self._result.callback(result)
+        self._result.callback(None)
 
 
 
@@ -285,7 +285,7 @@ class _Prompt(_ButtonPopUp):
         return [self.prompt]
 
 
-    def _completed(self):
+    def _completed(self, _button=None):
         """The prompt was completed. Fire all waiting deferreds with the
         prompt's edit text.
 
