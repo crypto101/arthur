@@ -172,6 +172,24 @@ class _PopUp(object):
 
 
 
+class _Splash(_PopUp):
+    """
+    A splash screen: like a notification, except you can't dismiss it.
+    """
+    def __init__(self, name, text):
+        self.text = text
+        _PopUp.__init__(name)
+
+
+    def _makeExtraWidgets(self):
+        """Makes a text widget.
+
+        """
+        self.textWidget = urwid.Text(self.text)
+        return [self.textWidget]
+
+
+
 class _ButtonPopUp(_PopUp):
     """A pop up with one or more buttons, and support for notification
     when they've been clicked.
