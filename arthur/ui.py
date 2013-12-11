@@ -159,21 +159,54 @@ class _PopUp(object):
     """
     position = ("relative", 20), 30, "middle", 10
 
-    def __init__(self, name, text, buttonText=u"OK"):
+    def __init__(self, name):
         self.name = name
-        self.textWidget = self._textWidgetFactory(text)
-        self.button = urwid.Button(buttonText, self._completed)
-        self.pile = urwid.Pile([
-            urwid.Text(name), DIVIDER, self.textWidget, self.button
-        ])
+
+        headerWidgets = [urwid.Text(name), DIVIDER]
+        self.pile = urwid.Pile(headerWidgets + self._makeExtraWidgets())
         self.widget = urwid.LineBox(urwid.Filler(self.pile))
 
+
+    def _makeExtraWidgets(self):
+        return []
+
+
+
+class _ButtonPopUp(_PopUp):
+    """A pop up with one or more buttons, and support for notification
+    when they've been clicked.
+
+    """
+    def __init__(self, name):
+        _PopUp.__init__(self, name)
         self._result = MultiDeferred()
 
 
-    @staticmethod
-    def _textWidgetFactory(text):
-        return urwid.Text(text)
+    def _makeExtraWidgets(self):
+        """Makes the extra widgets.
+
+        This defers to the ``make(TextWidgets|Buttons)`` methods; so
+        they can be overridden separately.
+
+        """
+        return self._makeTextWidgets() + self._makeButtons()
+
+
+    def _makeTextWidgets(self):
+        """Makes (optional) text widgets.
+
+        Override this in a subclass.
+        """
+        return []
+
+
+    def _makeButtons(self):
+        """Makes buttons and wires them up.
+
+        """
+        self.button = button = urwid.Button(u"OK")
+        urwid.connect_signal(button, "click", self._completed)
+        return [self.button]
 
 
     def notifyCompleted(self):
@@ -183,42 +216,55 @@ class _PopUp(object):
         return self._result.tee()
 
 
-    def _completed(self):
+    def _completed(self, result=None):
         """Call the completion deferreds that have been handed out.
 
         """
-        self._result.callback(None)
+        self._result.callback(result)
 
 
 
-class _Notification(_PopUp):
+class _Notification(_ButtonPopUp):
+    """A generic notification, which can be clicked away.
+
     """
-    A generic notification.
-    """
+    def __init__(self, name, notificationText):
+        self.notificationText = notificationText
+        _ButtonPopUp.__init__(self, name)
+
+
+    def _makeTextWidgets(self):
+        """Makes a text widget.
+
+        """
+        self.textWidget = urwid.Text(self.notificationText)
+        return [self.textWidget]
 
 
 
-def notify(workbench, name, text, buttonText=u"OK"):
+def notify(workbench, name, text):
     """Runs a notification.
 
     """
-    notification = _Notification(name, text, buttonText)
-    return _runPopUp(workbench, notification)
+    return _runPopUp(workbench, _Notification(name, text))
 
 
 
-class _Prompt(_PopUp):
+class _Prompt(_ButtonPopUp):
     """
     A generic prompt for a single string value.
     """
-    def __init__(self, name, promptText, buttonText=u"OK"):
-        _PopUp.__init__(self, name, promptText, buttonText)
-        self.prompt = self.textWidget
+    def __init__(self, name, promptText):
+        self.promptText = promptText
+        _ButtonPopUp.__init__(self, name)
 
 
-    @staticmethod
-    def _textWidgetFactory(text):
-        return urwid.Edit(text, multiline=False)
+    def _makeTextWidgets(self):
+        """Makes an editable prompt widget.
+
+        """
+        self.prompt = urwid.Edit(self.promptText, multiline=False)
+        return [self.prompt]
 
 
     def _completed(self):
@@ -230,12 +276,11 @@ class _Prompt(_PopUp):
 
 
 
-def prompt(workbench, name, promptText, buttonText=u"OK"):
+def prompt(workbench, name, promptText):
     """Runs a prompt.
 
     """
-    prompt = _Prompt(name, promptText, buttonText)
-    return _runPopUp(workbench, prompt)
+    return _runPopUp(workbench, _Prompt(name, promptText))
 
 
 def _runPopUp(workbench, popUp):
