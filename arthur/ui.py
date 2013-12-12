@@ -54,16 +54,20 @@ class Workbench(object):
         This actually forces a complete re-render.
         """
         self._tools.pop()
-        self.clear()
+        self._justClear()
         for tool in self._tools:
             self._justDisplay(tool)
 
 
     def clear(self):
         """
-        Clears the workbench.
+        Clears the workbench completely.
         """
         self._tools = []
+        self._justClear()
+
+
+    def _justClear(self):
         self.header.title.set_text(u"")
         self.widget.contents["body"] = BACKGROUND, None
 
