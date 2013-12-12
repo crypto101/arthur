@@ -38,9 +38,10 @@ def _connectWithContextFactory(ctxFactory, workbench):
     @d.addErrback
     def notifyFailure(f):
         f.trap(ConnectError)
-        alert(workbench, u"Couldn't connect", u"Connection failed! Check "
-              "internet connection, or try again later. \nError: {!r}"
-              .format(f.value))
+        d = alert(workbench, u"Couldn't connect", u"Connection failed! "
+                  "Check internet connection, or try again later.\n"
+                  "Error: {!r}".format(f.value))
+        return d
 
     return d
 
