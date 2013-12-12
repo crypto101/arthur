@@ -178,7 +178,7 @@ class _Splash(_PopUp):
     """
     def __init__(self, name, text):
         self.text = text
-        _PopUp.__init__(name)
+        _PopUp.__init__(self, name)
 
 
     def _makeExtraWidgets(self):
