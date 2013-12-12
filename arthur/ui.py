@@ -158,7 +158,7 @@ class _PopUp(object):
     """
     A generic pop-up.
     """
-    position = ("relative", 20), 30, "middle", 8
+    position = "center", 50, "middle", 10
 
     def __init__(self, name):
         self.name = name
@@ -292,7 +292,7 @@ class _Prompt(_ButtonPopUp):
     """
     A generic prompt for a single string value.
     """
-    position = ("relative", 20), 40, "middle", 6
+    position = "center", 40, "middle", 6
 
     def __init__(self, name, promptText):
         self.promptText = promptText
