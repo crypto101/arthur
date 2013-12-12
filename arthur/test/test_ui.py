@@ -13,7 +13,8 @@ class ConstantsTests(SynchronousTestCase):
         expected = {
             "header": ("black", "dark green"),
             "foreground": ("dark green", "black"),
-            "background": ("dark gray", "black")
+            "background": ("dark gray", "black"),
+            "alert": ("yellow" , "dark red")
         }
         for attributeTuple in ui.DEFAULT_PALETTE:
             name, attrs = attributeTuple[0], attributeTuple[1:]

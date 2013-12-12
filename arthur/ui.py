@@ -9,7 +9,8 @@ from zope import interface
 DEFAULT_PALETTE = (
     ('header', 'black', 'dark green'),
     ('foreground', 'dark green', 'black'),
-    ('background', 'dark gray', 'black')
+    ('background', 'dark gray', 'black'),
+    ('alert', 'yellow', 'dark red')
 )
 BACKGROUND = urwid.AttrMap(urwid.SolidFill(u"\N{LIGHT SHADE}"), "background")
 DIVIDER = urwid.Divider(u'\N{UPPER ONE EIGHTH BLOCK}')
@@ -265,6 +266,25 @@ def notify(workbench, name, text):
 
     """
     return _runPopUp(workbench, _Notification(name, text))
+
+
+
+class _Alert(_Notification):
+    """A notification in a scary-looking color.
+
+    """
+    def __init__(self, *args, **kwargs):
+        _Notification.__init__(self, *args, **kwargs)
+        self.originalWidget = self.widget
+        self.widget = urwid.AttrMap(self.originalWidget, "alert")
+
+
+
+def alert(workbench, name, text):
+    """Runs an alert.
+
+    """
+    return _runPopUp(workbench, _Alert(name, text))
 
 
 
