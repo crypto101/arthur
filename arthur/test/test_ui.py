@@ -1,6 +1,7 @@
 import urwid
 
 from arthur import ui
+from arthur.test.fakes import FakeWorkbench
 from twisted.trial.unittest import SynchronousTestCase
 from zope.interface import implementer, verify
 
@@ -183,27 +184,6 @@ class HeaderTests(SynchronousTestCase):
         contents = self.header.widget.original_widget.contents
         widgets = [widget for widget, _options in contents]
         self.assertEqual(widgets, [self.header.title, self.header.aside])
-
-
-
-class FakeWorkbench(object):
-    """
-    A fake workbench.
-    """
-    def __init__(self):
-        self.tools = []
-
-
-    def undisplay(self):
-        self.tools.pop()
-
-
-    def display(self, tool):
-        self.tools.append(tool)
-
-
-    def clear(self):
-        del self.tools[:]
 
 
 
