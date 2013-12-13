@@ -251,8 +251,8 @@ class _Notification(_ButtonPopUp):
     """A generic notification, which can be clicked away.
 
     """
-    def __init__(self, name, notificationText):
-        self.notificationText = notificationText
+    def __init__(self, name, text):
+        self.text = text
         _ButtonPopUp.__init__(self, name)
 
 
@@ -260,7 +260,7 @@ class _Notification(_ButtonPopUp):
         """Makes a text widget.
 
         """
-        self.textWidget = urwid.Text(self.notificationText)
+        self.textWidget = urwid.Text(self.text)
         return [self.textWidget]
 
 
