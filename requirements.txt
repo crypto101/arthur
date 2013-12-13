@@ -1,4 +1,4 @@
 urwid
-clarent==0.0.6
+clarent==0.0.7
 PyOpenSSL
 txampext==0.0.10
