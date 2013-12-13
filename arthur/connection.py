@@ -1,22 +1,20 @@
 from arthur.ui import alert, prompt, _Splash
 from clarent.certificate import makeCertificate, generateKey
-from platform import system
+from clarent.path import getDataPath
 from OpenSSL import crypto
-from os.path import expanduser
 from twisted.internet import reactor, ssl
 from twisted.internet.defer import inlineCallbacks, returnValue
 from twisted.internet.endpoints import SSL4ClientEndpoint
 from twisted.internet.error import ConnectError
 from twisted.internet.protocol import ClientFactory
 from twisted.protocols.amp import AMP
-from twisted.python.filepath import FilePath
 
 
 def connect(workbench):
     """Connection inititalization routine.
 
     """
-    d = _getContextFactory(_getDataPath(), workbench)
+    d = _getContextFactory(getDataPath(), workbench)
     d.addCallback(_connectWithContextFactory, workbench)
     return d
 
@@ -59,8 +57,6 @@ def _getContextFactory(path, workbench):
     the given workbench.
 
     """
-    if not path.isdir():
-        path.makedirs()
     pemPath = path.child("client.pem")
 
     if not pemPath.isfile():
@@ -89,19 +85,3 @@ def _makeCredentials(workbench, path, email):
         pemFile.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
 
     workbench.undisplay()
-
-
-thisSystem = system()
-
-
-def _getDataPath(_system=thisSystem):
-    """Gets an appropriate path for storing some local data, such as TLS
-    credentials.
-
-    """
-    if _system == "Windows":
-        path = "~/Crypto101/"
-    else:
-        path = "~/.crypto101/"
-
-    return FilePath(expanduser(path))
