@@ -22,6 +22,10 @@ def connect(workbench):
 
 
 def _connectWithContextFactory(ctxFactory, workbench):
+    """Connect using the given context factory. Notifications go to the
+    given workbench.
+
+    """
     endpoint = SSL4ClientEndpoint(reactor, "localhost", 4430, ctxFactory)
 
     splash = _Splash(u"Connecting", u"Connecting...")
@@ -70,9 +74,7 @@ def _getContextFactory(workbench):
 
 
 def _makeCredentials(workbench, path, email):
-    """Asks the user for their e-mail address, makes client certs, and
-    writes them to disk at path. Returns the resulting private
-    certificate.
+    """Makes client certs and writes them to disk at path.
 
     """
     splash = _Splash(u"SSL credential generation",
