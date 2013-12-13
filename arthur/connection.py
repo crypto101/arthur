@@ -16,7 +16,7 @@ def connect(workbench):
     """Connection inititalization routine.
 
     """
-    d = _getContextFactory(workbench)
+    d = _getContextFactory(_getDataPath(), workbench)
     d.addCallback(_connectWithContextFactory, workbench)
     return d
 
@@ -51,14 +51,14 @@ def _connectWithContextFactory(ctxFactory, workbench):
 
 
 @inlineCallbacks
-def _getContextFactory(workbench):
+def _getContextFactory(path, workbench):
     """Get a context factory.
 
-    If the client already has a certificate lying around, use it.
-    Otherwise, generate a new one.
+    If the client already has a credentials at path, use them.
+    Otherwise, generate them at path. Notifications are reported to
+    the given workbench.
 
     """
-    path = _getDataPath()
     if not path.isdir():
         path.makedirs()
     pemPath = path.child("client.pem")
