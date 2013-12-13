@@ -31,7 +31,6 @@ setup(name=packageName,
 
       packages=["arthur", "arthur.test"],
       test_suite="arthur.test",
-      setup_requires=['tox'],
       cmdclass={'test': Tox},
       zip_safe=True,
 
