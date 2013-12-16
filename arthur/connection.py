@@ -1,9 +1,8 @@
 from arthur.ui import alert, prompt, _Splash
-from clarent.certificate import makeCertificate, generateKey
+from clarent.certificate import makeCredentials, getContextFactory
 from clarent.path import getDataPath
-from OpenSSL import crypto
-from twisted.internet import reactor, ssl
-from twisted.internet.defer import inlineCallbacks, returnValue
+from twisted.internet import reactor
+from twisted.internet.defer import succeed
 from twisted.internet.endpoints import SSL4ClientEndpoint
 from twisted.internet.error import ConnectError
 from twisted.internet.protocol import ClientFactory
@@ -48,7 +47,6 @@ def _connectWithContextFactory(ctxFactory, workbench):
     return d
 
 
-@inlineCallbacks
 def _getContextFactory(path, workbench):
     """Get a context factory.
 
@@ -57,31 +55,26 @@ def _getContextFactory(path, workbench):
     the given workbench.
 
     """
-    pemPath = path.child("client.pem")
-
-    if not pemPath.isfile():
-        email = yield prompt(workbench, u"E-mail entry", u"Enter e-mail:")
-        _makeCredentials(workbench, path, email)
-
-    with pemPath.open() as pemFile:
-        cert = ssl.PrivateCertificate.loadPEM(pemFile.read())
-
-    returnValue(cert.options()) # TODO: require server cert verification
+    try:
+        return succeed(getContextFactory(path))
+    except IOError:
+        d = prompt(workbench, u"E-mail entry", u"Enter e-mail:")
+        d.addCallback(_makeCredentials, path, workbench)
+        d.addCallback(lambda _result: getContextFactory(path))
+        return d
 
 
-def _makeCredentials(workbench, path, email):
+def _makeCredentials(email, path, workbench):
     """Makes client certs and writes them to disk at path.
+
+    This essentially defers to clarent's ``makeCredentials`` function,
+    except it also shows a nice splash screen.
 
     """
     splash = _Splash(u"SSL credential generation",
                      u"Generating SSL credentials. (This can take a while.)")
     workbench.display(splash)
 
-    key = generateKey()
-    cert = makeCertificate(key, email)
-
-    with path.child("client.pem").open("wb") as pemFile:
-        pemFile.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, key))
-        pemFile.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
+    makeCredentials(path, email)
 
     workbench.undisplay()
