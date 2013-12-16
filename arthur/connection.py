@@ -42,7 +42,7 @@ def _connectWithContextFactory(ctxFactory, workbench):
         d = alert(workbench, u"Couldn't connect", u"Connection failed! "
                   "Check internet connection, or try again later.\n"
                   "Error: {!r}".format(f.value))
-        return d
+        return d.addCallback(lambda _result: reactor.stop())
 
     return d
 
