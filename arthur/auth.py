@@ -1,12 +1,15 @@
+"""
+Stuff for connecting to a merlyn server.
+"""
+
 from arthur.ui import alert, prompt, _Splash
+from arthur.protocol import factory
 from clarent.certificate import makeCredentials, getContextFactory
 from clarent.path import getDataPath
 from twisted.internet import reactor
 from twisted.internet.defer import succeed
 from twisted.internet.endpoints import SSL4ClientEndpoint
 from twisted.internet.error import ConnectError
-from twisted.internet.protocol import ClientFactory
-from twisted.protocols.amp import AMP
 
 
 def connect(workbench):
@@ -28,7 +31,6 @@ def _connectWithContextFactory(ctxFactory, workbench):
     splash = _Splash(u"Connecting", u"Connecting...")
     workbench.display(splash)
 
-    factory = ClientFactory.forProtocol(AMP)
     d = endpoint.connect(factory)
 
     @d.addBoth
