@@ -2,7 +2,6 @@
 appropriate responders.
 
 """
-
 from arthur.protocol import Factory
 from arthur.test.fakes import FakeWorkbench
 from clarent.exercise import NotifySolved
@@ -12,6 +11,7 @@ from txampext.respondertests import ResponderTestMixin
 
 workbench = FakeWorkbench()
 factory = Factory(workbench)
+proto = factory.buildProtocol(None)
 
 
 class NotifySolvedResponderTests(SynchronousTestCase, ResponderTestMixin):
@@ -19,4 +19,4 @@ class NotifySolvedResponderTests(SynchronousTestCase, ResponderTestMixin):
 
     """
     command = NotifySolved
-    locator = factory.buildProtocol(None)
+    locator = proto.locator

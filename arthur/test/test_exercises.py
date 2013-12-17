@@ -1,18 +1,7 @@
 """Tests for exercises-related code. """
-from arthur import exercises
+from arthur.protocol import Factory
 from arthur.test.fakes import FakeWorkbench
-from clarent.exercise import NotifySolved
 from twisted.trial.unittest import SynchronousTestCase
-from txampext.respondertests import ResponderTestMixin
-
-
-class NotifySolvedResponderTests(SynchronousTestCase, ResponderTestMixin):
-    """The exercise responder locator has a responder for NotifySolved.
-
-    """
-    command = NotifySolved
-    locator = exercises.ExercisesLocator(None)
-
 
 
 class NotifySolvedTests(SynchronousTestCase):
@@ -33,7 +22,9 @@ class NotifySolvedTests(SynchronousTestCase):
         """
         self.assertEqual(self.workbench.tools, [])
 
-        result = self.responder.notifySolved(b"identifier", u"The Exercise")
+        result = self.locator.notifySolved(
+            identifier=b"identifier",
+            title=u"The Exercise")
         self.assertEqual(result, {})
 
         notification = self.workbench.tools[-1]
