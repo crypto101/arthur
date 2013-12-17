@@ -167,7 +167,7 @@ class _PopUp(object):
     def __init__(self, name):
         self.name = name
 
-        headerWidgets = [urwid.Text(name), DIVIDER]
+        headerWidgets = [(1, urwid.Text(name)), (1, DIVIDER)]
         self.pile = urwid.Pile(headerWidgets + self._makeExtraWidgets())
         self.widget = urwid.LineBox(urwid.Filler(self.pile))
 
@@ -229,7 +229,7 @@ class _ButtonPopUp(_PopUp):
         """
         self.button = button = urwid.Button(u"OK")
         urwid.connect_signal(button, "click", self._completed)
-        return [self.button]
+        return [(1, self.button)]
 
 
     def notifyCompleted(self):
