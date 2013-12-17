@@ -3,7 +3,7 @@ Stuff for connecting to a merlyn server.
 """
 
 from arthur.ui import alert, prompt, _Splash
-from arthur.protocol import factory
+from arthur.protocol import Factory
 from clarent.certificate import makeCredentials, getContextFactory
 from clarent.path import getDataPath
 from twisted.internet import reactor
@@ -31,7 +31,7 @@ def _connectWithContextFactory(ctxFactory, workbench):
     splash = _Splash(u"Connecting", u"Connecting...")
     workbench.display(splash)
 
-    d = endpoint.connect(factory)
+    d = endpoint.connect(Factory(workbench))
 
     @d.addBoth
     def closeSplash(returnValue):
