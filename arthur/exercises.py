@@ -26,7 +26,7 @@ class ExercisesLocator(amp.CommandLocator):
 
 
     @NotifySolved.responder
-    def notifySolved(self, _identifier, title):
+    def notifySolved(self, identifier, title):
         """Notifies the user that a particular exercise has been solved.
 
         """
