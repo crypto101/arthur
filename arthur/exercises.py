@@ -16,8 +16,13 @@ class SearchTool(_Prompt):
 
 
 class ExercisesLocator(amp.CommandLocator):
-    def __init__(self, workbench):
-        self.workbench = workbench
+    def __init__(self, protocol):
+        self.protocol = protocol
+
+
+    @property
+    def workbench(self):
+        return self.protocol.factory.workbench
 
 
     @NotifySolved.responder

@@ -21,7 +21,9 @@ class NotifySolvedTests(SynchronousTestCase):
     """
     def setUp(self):
         self.workbench = FakeWorkbench()
-        self.responder = exercises.ExercisesLocator(self.workbench)
+        factory = Factory(self.workbench)
+        proto = factory.buildProtocol(None)
+        self.locator = proto.locator
 
 
     def test_notifySolved(self):
