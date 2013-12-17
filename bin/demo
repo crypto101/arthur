@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from twisted.internet import reactor, task
 from arthur.run import buildMainLoop, buildWorkbenchWithLauncher
-from arthur.connection import connect
+from arthur.auth import connect
+from twisted.internet import reactor, task
 
 workbench, launcher = buildWorkbenchWithLauncher()
 mainLoop = buildMainLoop(workbench, launcher)
