@@ -162,14 +162,14 @@ class _PopUp(object):
     """
     A generic pop-up.
     """
-    position = "center", 50, "middle", 10
+    position = "center", 50, "middle", 7
 
     def __init__(self, name):
         self.name = name
 
-        headerWidgets = [(1, urwid.Text(name)), (1, DIVIDER)]
-        self.pile = urwid.Pile(headerWidgets + self._makeExtraWidgets())
-        self.widget = urwid.LineBox(urwid.Filler(self.pile))
+        widgets = [urwid.Text(name), DIVIDER] + self._makeExtraWidgets()
+        self.listBox = urwid.ListBox(urwid.SimpleListWalker(widgets))
+        self.widget = urwid.LineBox(self.listBox)
 
 
     def _makeExtraWidgets(self):
@@ -229,7 +229,7 @@ class _ButtonPopUp(_PopUp):
         """
         self.button = button = urwid.Button(u"OK")
         urwid.connect_signal(button, "click", self._completed)
-        return [(1, self.button)]
+        return [self.button]
 
 
     def notifyCompleted(self):
