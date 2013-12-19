@@ -2,7 +2,7 @@
 
 """
 from arthur.exercises import ExercisesLocator
-from twisted.internet.protocol import ClientFactory
+from twisted.internet.protocol import ReconnectingClientFactory
 from twisted.protocols.amp import AMP
 
 
@@ -15,7 +15,7 @@ class Protocol(AMP):
 
 
 
-class Factory(ClientFactory):
+class Factory(ReconnectingClientFactory):
     protocol = Protocol
 
     def __init__(self, workbench):
