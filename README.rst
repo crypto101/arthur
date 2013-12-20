@@ -30,6 +30,11 @@ UI features:
 - A launcher, which sits on the workbench, and lets you launch tools.
 - Pop up utilities: notifications, prompts, alerts...
 
+Connection features:
+
+- TLS over AMP support, for TOFU/POP
+- Automatic re-connection
+
 0.0.1
 -----
 
