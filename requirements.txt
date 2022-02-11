@@ -1,5 +1,5 @@
 urwid
 clarent==0.0.7
-twisted==19.7.0
+twisted==22.1.0
 PyOpenSSL
 txampext==0.0.10
